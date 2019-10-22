@@ -44,7 +44,7 @@ export const addScore = (score, userId) => async dispatch => {
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADDED_SCORE:
-      return {...state}
+      return {...state, score: action.score}
     default:
       return state
   }
