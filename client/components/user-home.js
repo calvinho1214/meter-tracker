@@ -1,26 +1,42 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {addScore} from '../store/score'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email, handleSubmit, meter} = props
-  return (
-    <div>
+class UserHome extends Component {
+  constructor() {
+    super()
+    this.state = {
+      score: 0,
+      allScores: []
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit() {
+    const {score, user} = this.props
+    this.props.addScore(score, user.id)
+  }
+
+  render() {
+    return (
       <div>
-        <h3>Welcome, {email}</h3>
-      </div>
-      <form onSubmit={handleSubmit}>
         <div>
-          <small>Meters</small>
-          <input type="integer" />
+          <h3>Welcome, {this.props.user.email}</h3>
         </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  )
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <small>Meters</small>
+            <input type="integer" />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    )
+  }
 }
 
 /**
@@ -28,17 +44,15 @@ export const UserHome = props => {
  */
 const mapState = state => {
   return {
-    email: state.user.email,
-    meter: state.score.meter
+    user: state.user,
+    score: state.score.score,
+    allScores: state.score.allScores
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    handleSubmit(evt) {
-      const meter = evt.target.meter.value
-      dispatch(meter)
-    }
+    addScore: score => dispatch(addScore(score))
   }
 }
 

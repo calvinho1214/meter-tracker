@@ -15,3 +15,33 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/:userId/totalScore', async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId)
+    const totalScore = await User.findOne({
+      where: {
+        userId
+      }
+    })
+    res.json(totalScore)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put(`/:userId/totalScore`, async (req, res, next) => {
+  try {
+    const score = req.body.score
+    const userId = Number(req.params.userId)
+    const totalScore = await User.findOne({
+      where: {
+        userId
+      }
+    })
+    const newTotal = totalScore + score
+    res.json(newTotal)
+  } catch (error) {
+    next(error)
+  }
+})
