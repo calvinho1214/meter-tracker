@@ -7,7 +7,6 @@ const Score = require('./score')
  *    BlogPost.belongsTo(User)
  */
 User.hasMany(Score)
-Score.belongsTo(User)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
